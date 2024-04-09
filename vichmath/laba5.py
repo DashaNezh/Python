@@ -6,9 +6,9 @@ import matplotlib.pyplot as plt
 # h - шаг
 # t_end - время, до которого производится чис. интегрирование
 
-# Функция для решения дифференциального уравнения методом Тейлора
+# Функция для решения дифференциального уравнения методом Тейлора(учитываем еще и вторую производную)
 def solve_taylor_method(f, x_0, h, t_end):
-    t_values = np.arange(0, t_end, h)  # массив времени
+    t_values = np.arange(0, t_end, h)  # массив t
     x_values = np.zeros_like(t_values)  # массив значений х
     x_dot_values = np.zeros_like(t_values)  # массив значений x'
 
@@ -93,7 +93,7 @@ plt.figure(figsize=(14, 8))
 plt.subplot(3, 2, 1)
 plt.plot(t_values_a, x_values_a, label='Численное решение')
 plt.plot(t_values_a, analytical_solution_a(t_values_a), label='Аналитическое решение')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Решение для x\'\'(t) + x(t) = 0')
 plt.grid(True)
@@ -101,7 +101,7 @@ plt.legend()
 
 plt.subplot(3, 2, 2)
 plt.plot(t_values_a, error_a, label='Ошибка')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Ошибка для x\'\'(t) + x(t) = 0')
 plt.grid(True)
@@ -110,7 +110,7 @@ plt.legend()
 plt.subplot(3, 2, 3)
 plt.plot(t_values_b, x_values_b, label='Численное решение')
 plt.plot(t_values_b, analytical_solution_b(t_values_b), label='Аналитическое решение')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Решение для x\'\'(t) + x(t) = t')
 plt.grid(True)
@@ -118,7 +118,7 @@ plt.legend()
 
 plt.subplot(3, 2, 4)
 plt.plot(t_values_b, error_b, label='Ошибка')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Ошибка для x\'\'(t) + x(t) = t')
 plt.grid(True)
@@ -127,7 +127,7 @@ plt.legend()
 plt.subplot(3, 2, 5)
 plt.plot(t_values_c, x_values_c, label='Численное решение')
 plt.plot(t_values_c, analytical_solution_c(t_values_c), label='Аналитическое решение')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Решение для x\'\'(t) + x(t) = sin(t)')
 plt.grid(True)
@@ -135,7 +135,7 @@ plt.legend()
 
 plt.subplot(3, 2, 6)
 plt.plot(t_values_c, error_c, label='Ошибка')
-plt.xlabel('Время')
+plt.xlabel('t')
 plt.ylabel('Значение')
 plt.title('Ошибка для x\'\'(t) + x(t) = sin(t)')
 plt.grid(True)
