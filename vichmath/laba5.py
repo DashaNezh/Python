@@ -6,13 +6,13 @@ import matplotlib.pyplot as plt
 # h - шаг
 # t_end - время, до которого производится чис. интегрирование
 
-# Функция для решения дифференциального уравнения методом Тейлора(учитываем еще и вторую производную)
-def solve_taylor_method(f, x_0, h, t_end):
+# функция для решения дифференциального уравнения методом Эйлера
+def solve_euler_method(f, x_0, h, t_end):
     t_values = np.arange(0, t_end, h)  # массив t
     x_values = np.zeros_like(t_values)  # массив значений х
     x_dot_values = np.zeros_like(t_values)  # массив значений x'
 
-    # Устанавливаем начальные условия
+    # устанавливаем начальные условия
     x_values[0] = x_0[0]  # начальное значение х
     x_dot_values[0] = x_0[1]  # начальное значение производной
 
@@ -21,72 +21,72 @@ def solve_taylor_method(f, x_0, h, t_end):
         x_dot = x_dot_values[i - 1]
         x_ddot = f(x, x_dot, t_values[i])
 
-        # Вычисляем новые значения x и x'
-        x_values[i] = x + h * x_dot + (h ** 2) / 2 * x_ddot
+        # вычисляем новые значения x и x'
+        x_values[i] = x + h * x_dot
         x_dot_values[i] = x_dot + h * x_ddot
 
     return t_values, x_values, x_dot_values
 
 
-# Уравнение a: x''(t) + x(t) = 0
+# уравнение a: x''(t) + x(t) = 0
 def equation_a(x, x_dot, t):
     return -x
 
 
-# Уравнение b: x'' + x = t
+# уравнение b: x'' + x = t
 def equation_b(x, x_dot, t):
     return t - x
 
 
-# Уравнение c: x'' + x = sin(t)
+# уравнение c: x'' + x = sin(t)
 def equation_c(x, x_dot, t):
     return np.sin(t) - x
 
 
-# Аналитическое решение уравнения a
+# аналитическое решение уравнения a
 def analytical_solution_a(t):
     return np.cos(t) + np.sin(t)
 
 
-# Аналитическое решение уравнения b
+# аналитическое решение уравнения b
 def analytical_solution_b(t):
-    return t - 1 + np.exp(-t)
+    return t
 
 
-# Аналитическое решение уравнения c
+# аналитическое решение уравнения c
 def analytical_solution_c(t):
-    return (1 - np.exp(-t)) * np.sin(t)
+    return 1/2 * (-t*np.cos(t) + 3*np.sin(t))
 
 
-# Функция для вычисления погрешности
+# функция для вычисления погрешности
 # numerical_solution - численное решение
 # analytical_solution - аналитическое решение
 def compute_error(numerical_solution, analytical_solution):
     return np.abs(numerical_solution - analytical_solution)
 
 
-# Параметры для численного решения
+# параметры для численного решения
 h = 0.0001  # Шаг интегрирования
 t_end = 10  # Конечное время
 
-# Начальные условия для каждого уравнения
+# начальные условия для каждого уравнения
 initial_condition_a = [1, 1]  # x(0) = 1, x'(0) = 1
-initial_condition_b = [0, 0]  # x(0) = 0, x'(0) = 0
-initial_condition_c = [0, 0]  # x'(0) = 0
+initial_condition_b = [0, 1]  # x(0) = 0, x'(0) = 1
+initial_condition_c = [0, 1]  # x'(0) = 0
 
-# Решение уравнения a
-t_values_a, x_values_a, _ = solve_taylor_method(equation_a, initial_condition_a, h, t_end)
+# решение уравнения a
+t_values_a, x_values_a, _ = solve_euler_method(equation_a, initial_condition_a, h, t_end)
 error_a = compute_error(x_values_a, analytical_solution_a(t_values_a))
 
-# Решение уравнения b
-t_values_b, x_values_b, _ = solve_taylor_method(equation_b, initial_condition_b, h, t_end)
+# решение уравнения b
+t_values_b, x_values_b, _ = solve_euler_method(equation_b, initial_condition_b, h, t_end)
 error_b = compute_error(x_values_b, analytical_solution_b(t_values_b))
 
-# Решение уравнения c
-t_values_c, x_values_c, _ = solve_taylor_method(equation_c, initial_condition_c, h, t_end)
+# решение уравнения c
+t_values_c, x_values_c, _ = solve_euler_method(equation_c, initial_condition_c, h, t_end)
 error_c = compute_error(x_values_c, analytical_solution_c(t_values_c))
 
-# # Построение графиков
+# построение графиков
 
 plt.figure(figsize=(14, 8))
 
