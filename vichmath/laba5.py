@@ -55,7 +55,7 @@ def analytical_solution_b(t):
 
 # аналитическое решение уравнения c
 def analytical_solution_c(t):
-    return 1/2 * (-t*np.cos(t) + 3*np.sin(t))
+    return 1 / 2 * (-t * np.cos(t) + 3 * np.sin(t))
 
 
 # функция для вычисления погрешности
@@ -65,81 +65,86 @@ def compute_error(numerical_solution, analytical_solution):
     return np.abs(numerical_solution - analytical_solution)
 
 
-# параметры для численного решения
-h = 0.0001  # Шаг интегрирования
-t_end = 10  # Конечное время
+def main():
+    # параметры для численного решения
+    h = 0.0001  # Шаг интегрирования
+    t_end = 10  # Конечное время
 
-# начальные условия для каждого уравнения
-initial_condition_a = [1, 1]  # x(0) = 1, x'(0) = 1
-initial_condition_b = [0, 1]  # x(0) = 0, x'(0) = 1
-initial_condition_c = [0, 1]  # x'(0) = 0
+    # начальные условия для каждого уравнения
+    initial_condition_a = [1, 1]  # x(0) = 1, x'(0) = 1
+    initial_condition_b = [0, 1]  # x(0) = 0, x'(0) = 1
+    initial_condition_c = [0, 1]  # x'(0) = 0
 
-# решение уравнения a
-t_values_a, x_values_a, _ = solve_euler_method(equation_a, initial_condition_a, h, t_end)
-error_a = compute_error(x_values_a, analytical_solution_a(t_values_a))
+    # решение уравнения a
+    t_values_a, x_values_a, _ = solve_euler_method(equation_a, initial_condition_a, h, t_end)
+    error_a = compute_error(x_values_a, analytical_solution_a(t_values_a))
 
-# решение уравнения b
-t_values_b, x_values_b, _ = solve_euler_method(equation_b, initial_condition_b, h, t_end)
-error_b = compute_error(x_values_b, analytical_solution_b(t_values_b))
+    # решение уравнения b
+    t_values_b, x_values_b, _ = solve_euler_method(equation_b, initial_condition_b, h, t_end)
+    error_b = compute_error(x_values_b, analytical_solution_b(t_values_b))
 
-# решение уравнения c
-t_values_c, x_values_c, _ = solve_euler_method(equation_c, initial_condition_c, h, t_end)
-error_c = compute_error(x_values_c, analytical_solution_c(t_values_c))
+    # решение уравнения c
+    t_values_c, x_values_c, _ = solve_euler_method(equation_c, initial_condition_c, h, t_end)
+    error_c = compute_error(x_values_c, analytical_solution_c(t_values_c))
 
-# построение графиков
+    # построение графиков
 
-plt.figure(figsize=(14, 8))
+    plt.figure(figsize=(14, 8))
 
-plt.subplot(3, 2, 1)
-plt.plot(t_values_a, x_values_a, label='Численное решение')
-plt.plot(t_values_a, analytical_solution_a(t_values_a), label='Аналитическое решение')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Решение для x\'\'(t) + x(t) = 0')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 1)
+    plt.plot(t_values_a, x_values_a, label='Численное решение')
+    plt.plot(t_values_a, analytical_solution_a(t_values_a), label='Аналитическое решение')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Решение для x\'\'(t) + x(t) = 0')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplot(3, 2, 2)
-plt.plot(t_values_a, error_a, label='Ошибка')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Ошибка для x\'\'(t) + x(t) = 0')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 2)
+    plt.plot(t_values_a, error_a, label='Ошибка')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Ошибка для x\'\'(t) + x(t) = 0')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplot(3, 2, 3)
-plt.plot(t_values_b, x_values_b, label='Численное решение')
-plt.plot(t_values_b, analytical_solution_b(t_values_b), label='Аналитическое решение')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Решение для x\'\'(t) + x(t) = t')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 3)
+    plt.plot(t_values_b, x_values_b, label='Численное решение')
+    plt.plot(t_values_b, analytical_solution_b(t_values_b), label='Аналитическое решение')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Решение для x\'\'(t) + x(t) = t')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplot(3, 2, 4)
-plt.plot(t_values_b, error_b, label='Ошибка')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Ошибка для x\'\'(t) + x(t) = t')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 4)
+    plt.plot(t_values_b, error_b, label='Ошибка')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Ошибка для x\'\'(t) + x(t) = t')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplot(3, 2, 5)
-plt.plot(t_values_c, x_values_c, label='Численное решение')
-plt.plot(t_values_c, analytical_solution_c(t_values_c), label='Аналитическое решение')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Решение для x\'\'(t) + x(t) = sin(t)')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 5)
+    plt.plot(t_values_c, x_values_c, label='Численное решение')
+    plt.plot(t_values_c, analytical_solution_c(t_values_c), label='Аналитическое решение')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Решение для x\'\'(t) + x(t) = sin(t)')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplot(3, 2, 6)
-plt.plot(t_values_c, error_c, label='Ошибка')
-plt.xlabel('t')
-plt.ylabel('Значение')
-plt.title('Ошибка для x\'\'(t) + x(t) = sin(t)')
-plt.grid(True)
-plt.legend()
+    plt.subplot(3, 2, 6)
+    plt.plot(t_values_c, error_c, label='Ошибка')
+    plt.xlabel('t')
+    plt.ylabel('Значение')
+    plt.title('Ошибка для x\'\'(t) + x(t) = sin(t)')
+    plt.grid(True)
+    plt.legend()
 
-plt.subplots_adjust(hspace=0.5, wspace=0.3)
-plt.show()
+    plt.subplots_adjust(hspace=0.5, wspace=0.3)
+    plt.show()
+
+
+if __name__ == "__main__":
+    main()
