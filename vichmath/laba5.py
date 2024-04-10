@@ -1,3 +1,4 @@
+# решение ду при помощи метода эйлера(Бояршинов М. Г. "Численные методы")
 import numpy as np
 import matplotlib.pyplot as plt
 
@@ -50,12 +51,12 @@ def analytical_solution_a(t):
 
 # аналитическое решение уравнения b
 def analytical_solution_b(t):
-    return t
+    return t - np.sin(t)
 
 
 # аналитическое решение уравнения c
 def analytical_solution_c(t):
-    return 1 / 2 * (-t * np.cos(t) + 3 * np.sin(t))
+    return 1 / 2 * (-t * np.cos(t) + np.sin(t))
 
 
 # функция для вычисления погрешности
@@ -72,8 +73,8 @@ def main():
 
     # начальные условия для каждого уравнения
     initial_condition_a = [1, 1]  # x(0) = 1, x'(0) = 1
-    initial_condition_b = [0, 1]  # x(0) = 0, x'(0) = 1
-    initial_condition_c = [0, 1]  # x'(0) = 0
+    initial_condition_b = [0, 0]  # x(0) = 0, x'(0) = 0
+    initial_condition_c = [0, 0]  # x'(0) = 0
 
     # решение уравнения a
     t_values_a, x_values_a, _ = solve_euler_method(equation_a, initial_condition_a, h, t_end)
