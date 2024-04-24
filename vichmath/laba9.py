@@ -1,74 +1,43 @@
-"""
-реализовать структуру данных - дерево
-задать рандомно дерево и посчитать его наибольшую глубину
-"""
+from collections import deque
+
+graph = {'S': {'G': 3, 'X': 2},
+         'G': {'S': 3, 'F': 4, 'H': 2},
+         'X': {'S': 2, 'H': 3, 'M': 5},
+         'H': {'X': 3, 'G': 2},
+         'M': {'X': 5, 'F': 4},
+         'F': {'G': 4, 'M': 4}}
 
 
-def dfs(node, graph, visited, max_depth, current_depth):
-    """
-    Обход в глубину графа, начиная с указанной вершины.
+def bfs(start, goal, graph):
+    queue = deque([start])
+    visited = {start: None}
+    distance = {start: 0}
 
-    Аргументы:
-        node: str
-            Текущая вершина для обхода.
-        graph: dict
-            Граф в виде словаря смежности.
-        visited: set
-            Множество посещённых вершин.
-        max_depth: list
-            Список для хранения максимальной глубины.
-        current_depth: int
-            Текущая глубина обхода.
-    """
-    # Обновляем максимальную глубину, если текущая глубина больше
-    if current_depth > max_depth[0]:
-        max_depth[0] = current_depth
+    while queue:
+        cur_node = queue.popleft()
+        if cur_node == goal:
+            break
 
-    # Добавляем текущую вершину в множество посещённых
-    visited.add(node)
+        next_nodes = graph[cur_node]
 
-    # Рекурсивно обходим соседей текущей вершины
-    for neighbor in graph[node]:
-        if neighbor not in visited:
-            dfs(neighbor, graph, visited, max_depth, current_depth + 1)
+        for next_node, weight in next_nodes.items():
+            if next_node not in visited:
+                queue.append(next_node)
+                visited[next_node] = cur_node
+                distance[next_node] = distance[cur_node] + weight
 
+    cur_node = goal
+    path = []
+    while cur_node != start:
+        path.append(cur_node + f'({distance[cur_node]})')
+        cur_node = visited[cur_node]
+    path.append(start + f'({distance[start]})')
+    path.reverse()
+    return path, distance[goal]
 
-def find_max_depth(graph):
-    """
-    Нахождение максимальной глубины в графе.
+start = 'S'
+goal = 'F'
 
-    Аргументы:
-        graph: dict
-            Граф в виде словаря смежности.
+path, min_distance = bfs(start, goal, graph)
 
-    Возвращает:
-        int: Максимальная глубина в графе.
-    """
-    max_depth = [0]  # Список для хранения максимальной глубины
-    visited = set()  # Множество посещённых вершин
-
-    # Начинаем обход с каждой вершины, если она ещё не была посещена
-    for node in graph:
-        if node not in visited:
-            dfs(node, graph, visited, max_depth, 0)
-
-    return max_depth[0]
-
-
-def main():
-    graph = {
-        'S': {'G', 'X'},
-        'G': {'S', 'F', 'H'},
-        'X': {'S', 'H', 'M'},
-        'H': {'X', 'G'},
-        'M': {'X', 'F'},
-        'F': {'G', 'M'}
-    }
-
-    # Находим максимальную глубину графа
-    max_depth = find_max_depth(graph)
-    print("Максимальная глубина:", max_depth)
-
-
-if __name__ == "__main__":
-    main()
+print(f'\nPath from {start} to {goal}: {"--->".join(path)} = {min_distance}')
