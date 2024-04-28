@@ -67,12 +67,12 @@ def counting_sort(arr):
     Наконец, возвращается отсортированный массив sorted_arr.
     """
 
-    max_val = max(arr) # находим max значение в исходном массиве
-    counts = [0] * (max_val + 1) # каждый элемент инициализируется нулем
+    max_val = max(arr)
+    counts = [0] * (max_val + 1)
     sorted_arr = []
 
     for num in arr:
-        counts[num] += 1 # подсчитываем встречающиеся элементы
+        counts[num] += 1
 
     for i in range(len(counts)):
         sorted_arr.extend([i] * counts[i])
