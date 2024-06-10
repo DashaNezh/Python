@@ -1,4 +1,6 @@
-# численное интегрирование
+"""
+Численное интегрирование
+"""
 
 from math import *
 import matplotlib.pyplot as plt
@@ -56,6 +58,7 @@ def trapezoid_Method(a, b, n):
     return h * sum
 
 
+# метод симпсона
 def simpson_Method(a, b, n):
     h = (b - a) / (2 * n)
     sum = f(a) + f(b)
@@ -69,7 +72,7 @@ def simpson_Method(a, b, n):
 
 def main():
     a = 0  # нижний предел интегрирования
-    b = pi # верхний предел интегрирования
+    b = pi  # верхний предел интегрирования
     n = 1000  # число разбиений
     print(f"Метод левых прямоугольников: {left_Rectangle(a, b, n)}")
     print(f"Метод правых прямоугольников: {right_Rectangle(a, b, n)}")
@@ -77,20 +80,19 @@ def main():
     print(f"Метод трапецией: {trapezoid_Method(a, b, n)}")
     print(f"Метод симпсона: {simpson_Method(a, b, n)}")
 
-
     # Построение графиков погрешности от шага интегрирования
-    h = (2 * b - a)/n
+    h = (2 * b - a) / n
     x_values = np.linspace(0, 2 * np.pi, 1000)
     y_values = np.sin(x_values)
-    y_values_function = 1 - np.cos(x_values) # Значения от интеграла sin(x)
+    y_values_function = 1 - np.cos(x_values)  # Значения от интеграла sin(x)
     t_values = np.linspace(a, 2 * b, 1000)
     difference_values = []
     difference_value = 0
     for t in t_values:
         difference_value += f(t) * h
         difference_values.append(difference_value)
-    #Вычисляем накопленную площадь для каждого t
-    #integral_values_sum = np.cumsum(f(t_values) * h)
+    # Вычисляем накопленную площадь для каждого t
+    # integral_values_sum = np.cumsum(f(t_values) * h)
     errors = difference_values - y_values_function
 
     plt.subplot(121)

@@ -1,11 +1,16 @@
-# решение ду при помощи метода эйлера(Бояршинов М. Г. "Численные методы")
+"""
+Решение ду при помощи метода эйлера(Бояршинов М. Г. "Численные методы")
+"""
+
 import numpy as np
 import matplotlib.pyplot as plt
 
+"""
+x_0 - принимает начальные условия
+h - шаг
+t_end - время, до которого производится чис. интегрирование
+"""
 
-# x_0 - принимает начальные условия
-# h - шаг
-# t_end - время, до которого производится чис. интегрирование
 
 # функция для решения дифференциального уравнения методом Эйлера
 def solve_euler_method(f, x_0, h, t_end):
@@ -59,9 +64,13 @@ def analytical_solution_c(t):
     return 1 / 2 * (-t * np.cos(t) + np.sin(t))
 
 
-# функция для вычисления погрешности
-# numerical_solution - численное решение
-# analytical_solution - аналитическое решение
+"""
+функция для вычисления погрешности
+numerical_solution - численное решение
+analytical_solution - аналитическое решение
+"""
+
+
 def compute_error(numerical_solution, analytical_solution):
     return np.abs(numerical_solution - analytical_solution)
 

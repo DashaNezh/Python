@@ -36,8 +36,9 @@ def main():
     a = -2
     b = 2
     # Создаем данные для интерполяции
-    #x_data = np.linspace(-2, 2, points)
-    x_data = [(b + a) / 2 + ((b - a) / 2) * np.cos(((2 * i + 1) / (2 * (points + 1))) * np.pi) for i in range(points + 1)]
+    # x_data = np.linspace(-2, 2, points)
+    x_data = [(b + a) / 2 + ((b - a) / 2) * np.cos(((2 * i + 1) / (2 * (points + 1))) * np.pi) for i in
+              range(points + 1)]
     y_data = np.abs(x_data)
 
     # Создаем точки для интерполяции
@@ -58,7 +59,6 @@ def main():
     plt.title('Частные многочлены Лагранжа')
     plt.legend()
     plt.grid(True)
-
 
     # График интерполяции с многочленами Лагранжа
     plt.subplot(2, 1, 2)

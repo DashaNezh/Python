@@ -1,43 +1,62 @@
-from collections import deque
+"""
+Генерация дерева и вывод его в виде древовидной структуры с помощью символов.
+Также вычисляется наибольшая глубина дерева.
 
-graph = {'S': {'G': 3, 'X': 2},
-         'G': {'S': 3, 'F': 4, 'H': 2},
-         'X': {'S': 2, 'H': 3, 'M': 5},
-         'H': {'X': 3, 'G': 2},
-         'M': {'X': 5, 'F': 4},
-         'F': {'G': 4, 'M': 4}}
+Переменные:
+- tree: корень сгенерированного дерева
+- depth: глубина дерева
+- prefix: префикс для отступов при печати узлов
+- is_tail: указывает, является ли узел последним у дочерних узлов своего родителя
+"""
+
+import random
 
 
-def bfs(start, goal, graph):
-    queue = deque([start])
-    visited = {start: None}
-    distance = {start: 0}
+class TreeNode:
+    def __init__(self, value):
+        self.value = value
+        self.children = []
 
-    while queue:
-        cur_node = queue.popleft()
-        if cur_node == goal:
-            break
+    def __str__(self):
+        return str(self.value)
 
-        next_nodes = graph[cur_node]
 
-        for next_node, weight in next_nodes.items():
-            if next_node not in visited:
-                queue.append(next_node)
-                visited[next_node] = cur_node
-                distance[next_node] = distance[cur_node] + weight
+def generate_random_tree(depth):
+    if depth == 0:
+        return None
+    root = TreeNode(random.randint(1, 100))
+    num_children = random.randint(0, 3)
+    for _ in range(num_children):
+        root.children.append(generate_random_tree(depth - 1))
+    return root
 
-    cur_node = goal
-    path = []
-    while cur_node != start:
-        path.append(cur_node + f'({distance[cur_node]})')
-        cur_node = visited[cur_node]
-    path.append(start + f'({distance[start]})')
-    path.reverse()
-    return path, distance[goal]
 
-start = 'S'
-goal = 'F'
+def print_tree(root, prefix='', is_tail=True):
+    if root is None:
+        return
+    print(prefix + ('└── ' if is_tail else '├── ') + str(root.value))
+    prefix += '    ' if is_tail else '│   '
+    children_count = len(root.children)
+    for i, child in enumerate(root.children):
+        is_last_child = (i == children_count - 1)
+        print_tree(child, prefix, is_last_child)
 
-path, min_distance = bfs(start, goal, graph)
 
-print(f'\nPath from {start} to {goal}: {"--->".join(path)} = {min_distance}')
+def max_depth(root):
+    if root is None:
+        return 0
+    if not root.children:
+        return 1
+    return 1 + max(max_depth(child) for child in root.children)
+
+
+def main():
+    depth = random.randint(1, 20)
+    tree = generate_random_tree(depth)
+    print("Сгенерированное дерево:")
+    print_tree(tree)
+    print("Наибольшая глубина дерева:", max_depth(tree))
+
+
+if __name__ == "__main__":
+    main()
